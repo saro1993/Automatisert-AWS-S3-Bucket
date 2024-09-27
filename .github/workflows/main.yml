@@ -1,0 +1,27 @@
+name: List S3 Buckets
+
+# Dette lar deg starte arbeidsflyten manuelt
+on:
+  workflow_dispatch:
+
+jobs:
+  list-s3:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout repoet ditt (hvis du har behov for det)
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Sett opp AWS Credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  # Sett til din region hvis nødvendig
+
+    # Kjør kommandoen for å liste S3 buckets
+    - name: List S3 Buckets
+      run: |
+        aws s3 ls
